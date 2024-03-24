@@ -1,0 +1,27 @@
+{
+  "TCRMService": {
+   "@schemaLocation": "http://www.ibm.com/mdm/schema MDMDomains.xsd",
+    "RequestControl": {
+      "requestID": "1225",
+      "DWLControl": {
+        "requesterName": "Robert",
+        "requesterLanguage": "100"
+      }
+    },
+    "TCRMTx": {
+      "TCRMTxType": "addPartyRelationship",
+      "TCRMTxObject": "TCRMPartyRelationshipBObj",
+      "TCRMObject": {
+        "TCRMPartyRelationshipBObj": {
+          "RelationshipType": "3",
+          "RelationshipValue": "Party 1 is the sibling of party 2",
+          "RelationshipFromValue" : "435866590955319397",
+          "RelationshipToValue" : "335966590955327184",
+          "RelationshipFromPartyId": "435866590955319397",
+          "RelationshipToPartyId" : "335966590955327184",          
+          "RelationshipToPartyName" : "Tarik Ivor"
+        }
+      }
+    }
+  }
+}
