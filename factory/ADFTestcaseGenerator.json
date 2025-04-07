@@ -1,0 +1,9 @@
+{
+	"name": "ADFTestcaseGenerator",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "2f197134-51df-4ccf-9715-c81621b15699",
+		"tenantId": "37c2507c-3759-41f4-ba0b-f9514c65e40a"
+	}
+}
