@@ -5,8 +5,8 @@
 		"annotations": [],
 		"type": "Db2",
 		"typeProperties": {
-			"connectionString": "server=10.100.15.32:50000;database=MDMQADB;username=db2admin;packagecollection=NULLID;certificatecommonname=0;authenticationtype=Basic",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI1ZGMzYzU1OC04YjVmLTQzY2UtYjU5ZS04Y2QyYzE0YzBjYmQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"connectionString": "server=10.100.15.32:50000;database=MDMQADB;username=db2admin;authenticationtype=Basic",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIwM2M2NTU2My02NmJkLTQ2MjktOGI1Yi05ODg2YjBkYjA1ODEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "IBMDB2",
