@@ -1,0 +1,6 @@
+{
+	"name": "OnPremDB2",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
