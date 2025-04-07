@@ -1,0 +1,16 @@
+{
+	"name": "Db2Table1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Db21",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Db2Table",
+		"schema": [],
+		"typeProperties": {
+			"schema": "DB2ADMIN",
+			"table": "EMPLOYEE"
+		}
+	}
+}
