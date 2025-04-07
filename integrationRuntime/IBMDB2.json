@@ -1,0 +1,6 @@
+{
+	"name": "IBMDB2",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
