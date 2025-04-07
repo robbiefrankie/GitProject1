@@ -7,10 +7,6 @@
 		},
 		"annotations": [],
 		"type": "Db2Table",
-		"schema": [],
-		"typeProperties": {
-			"schema": "DB2ADMIN",
-			"table": "EMPLOYEE"
-		}
+		"schema": []
 	}
 }
