@@ -1,6 +1,30 @@
 {
 	"name": "PL_RunDb2Queries",
 	"properties": {
+		"activities": [
+			{
+				"name": "Run_Query_On_IDM_Db2",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "Db2Source",
+						"query": "SELECT * FROM DB2ADMIN.EMPLOYEE WHERE EMP_ID = 101 WITH UR"
+					},
+					"dataset": {
+						"referenceName": "Db2Table1",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
 		"annotations": []
 	}
 }
