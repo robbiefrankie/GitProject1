@@ -67,10 +67,7 @@
 				"annotations": [],
 				"type": "Db2Table",
 				"schema": [],
-				"typeProperties": {
-					"schema": "DB2ADMIN",
-					"table": "EMPLOYEE"
-				}
+				"typeProperties": {}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Db21')]"
