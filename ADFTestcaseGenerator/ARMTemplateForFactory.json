@@ -82,9 +82,15 @@
 				"type": "Db2",
 				"typeProperties": {
 					"connectionString": "[parameters('Db21_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "IBMDB2",
+					"type": "IntegrationRuntimeReference"
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/IBMDB2')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/IBMDB2')]",
