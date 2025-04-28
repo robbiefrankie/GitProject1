@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Run_Query_On_IDM_Db2",
+				"name": "Run_Employee_Proc",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -15,7 +15,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "Db2Source",
-						"query": "SELECT * FROM DB2ADMIN.EMPLOYEE WHERE EMP_ID = 101 WITH UR"
+						"query": "CALL DB2ADMIN.GET_EMPLOYEE()"
 					},
 					"dataset": {
 						"referenceName": "Db2Table1",
@@ -23,8 +23,87 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "Run_Department_Proc",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Run_Employee_Proc",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "Db2Source",
+						"query": "CALL DB2ADMIN.GET_DEPARTMENT()"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Run_EmployeeDetails_Proc",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Run_Department_Proc",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "Db2Source",
+						"query": "CALL DB2ADMIN.GET_EMPLOYEE_DETAILS()"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Merge_Results",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Run_EmployeeDetails_Proc",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "MergedResults",
+					"value": {
+						"value": "@union(activity('Run_Employee_Proc').output.value, activity('Run_Department_Proc').output.value, activity('Run_EmployeeDetails_Proc').output.value)",
+						"type": "Expression"
+					}
+				}
 			}
 		],
+		"variables": {
+			"MergedResults": {
+				"type": "Array"
+			}
+		},
 		"annotations": []
 	}
 }
