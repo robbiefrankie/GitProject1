@@ -15,7 +15,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"container": "temp"
+				"container": "tempinput"
 			}
 		},
 		"schema": {}
