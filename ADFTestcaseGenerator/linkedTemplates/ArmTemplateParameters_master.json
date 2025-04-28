@@ -8,6 +8,9 @@
 		"Db21_connectionString": {
 			"value": ""
 		},
+		"adftestcasegenerator_connectionString": {
+			"value": ""
+		},
 		"containerUri": {
 			"value": ""
 		},

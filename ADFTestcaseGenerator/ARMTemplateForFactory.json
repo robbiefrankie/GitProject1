@@ -10,6 +10,10 @@
 		"Db21_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Db21'"
+		},
+		"adftestcasegenerator_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'adftestcasegenerator'"
 		}
 	},
 	"variables": {
@@ -23,7 +27,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Run_Query_On_IDM_Db2",
+						"name": "Run_Employee_Proc",
 						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
@@ -35,7 +39,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "Db2Source",
-								"query": "SELECT * FROM DB2ADMIN.EMPLOYEE WHERE EMP_ID = 101 WITH UR"
+								"query": "CALL DB2ADMIN.GET_EMPLOYEE()"
 							},
 							"dataset": {
 								"referenceName": "Db2Table1",
@@ -44,10 +48,99 @@
 							},
 							"firstRowOnly": false
 						}
+					},
+					{
+						"name": "Run_Department_Proc",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "Run_Employee_Proc",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "Db2Source",
+								"query": "CALL DB2ADMIN.GET_DEPARTMENT()"
+							},
+							"dataset": {
+								"referenceName": "Db2Table1",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "Run_EmployeeDetails_Proc",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "Run_Department_Proc",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "Db2Source",
+								"query": "CALL DB2ADMIN.GET_EMPLOYEE_DETAILS()"
+							},
+							"dataset": {
+								"referenceName": "Db2Table1",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "Merge_Results",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Run_EmployeeDetails_Proc",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "MergedResults",
+							"value": {
+								"value": "@union(activity('Run_Employee_Proc').output.value, activity('Run_Department_Proc').output.value, activity('Run_EmployeeDetails_Proc').output.value)",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"MergedResults": {
+						"type": "Array"
+					}
 				},
 				"annotations": []
 			},
@@ -74,6 +167,34 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/InputDataset_RunEmployee')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "adftestcasegenerator",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"inputData": {
+						"type": "array"
+					}
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "temp"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/adftestcasegenerator')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Db21')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -91,6 +212,19 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/IBMDB2')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/adftestcasegenerator')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('adftestcasegenerator_connectionString')]"
+				}
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/IBMDB2')]",
