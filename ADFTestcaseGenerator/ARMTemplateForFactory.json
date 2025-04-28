@@ -263,6 +263,34 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/adftestcasegenerator')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/InputDataset_RunEmployeeDetails')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "adftestcasegenerator",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"inputData": {
+						"type": "array"
+					}
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "temp"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/adftestcasegenerator')]"
+			]
 		}
 	]
 }
