@@ -1,0 +1,23 @@
+{
+	"name": "InputDataset_RunDepartment",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "adftestcasegenerator",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"inputData": {
+				"type": "array"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "temp"
+			}
+		},
+		"schema": {}
+	}
+}
